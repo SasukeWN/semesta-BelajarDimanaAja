@@ -1,24 +1,22 @@
 const express = require('express');
 const cors = require('cors');
-const cookieParser = require('cookie-parser'); // Tambah cookie-parser
+const cookieParser = require('cookie-parser'); 
 require('dotenv').config();
 const db = require('./db');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Setup CORS agar bisa kirim cookie beda port (frontend dan backend)
 app.use(cors({
-  origin: 'http://localhost:5173', // Ganti dengan port frontend lu (misal Vite 5173, Nextjs 3000)
-  credentials: true // WAJIB true kalau mau pakai Cookie
+  origin: 'http://localhost:5173', 
+  credentials: true 
 }));
 
 app.use(express.json());
-app.use(cookieParser()); // Gunakan middleware cookie
+app.use(cookieParser()); 
 
-// Setup folder public agar file WebP yang di-upload bisa diakses langsung via URL (Contoh: localhost:3000/uploads/...)
+// Expose folder public agar foto bisa diakses via URL
 app.use(express.static('public'));
-
 
 const adminRoute = require('./route/admin/admin.route');
 const kategoriRoute = require('./route/kategori/kategori.route');

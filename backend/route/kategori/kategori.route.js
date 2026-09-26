@@ -132,6 +132,15 @@ router.delete('/:id', verifyToken, async (req, res) => {
     });
   } catch (error) {
     console.error('Error delete kategori:', error);
+    
+    // Cek apakah errornya karena foreign key (ada materi yang masih nyangkut ke kategori ini)
+    if (error.code === 'ER_ROW_IS_REFERENCED_2' || error.errno === 1451) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Kategori tidak bisa dihapus karena masih ada materi yang menggunakan kategori ini. Silakan hapus atau pindahkan materinya terlebih dahulu.' 
+      });
+    }
+
     res.status(500).json({ success: false, message: 'Terjadi kesalahan pada server' });
   }
 });

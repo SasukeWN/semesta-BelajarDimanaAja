@@ -31,6 +31,32 @@ router.get('/', async (req, res) => {
 });
 
 // ==============================================
+// 1.5 GET SEMUA MATERI (Hanya Admin)
+// Menampilkan semua materi tanpa filter status
+// ==============================================
+router.get('/admin/all', verifyToken, async (req, res) => {
+  try {
+    const query = `
+      SELECT m.*, k.nama_kategori 
+      FROM materi m 
+      LEFT JOIN kategori k ON m.id_kategori = k.id 
+      ORDER BY m.created_at DESC
+    `;
+    const [materi] = await db.query(query);
+    
+    res.json({
+      success: true,
+      message: 'Berhasil mengambil semua materi (Admin)',
+      data: materi
+    });
+  } catch (error) {
+    console.error('Error get all materi admin:', error);
+    res.status(500).json({ success: false, message: 'Terjadi kesalahan pada server' });
+  }
+});
+
+
+// ==============================================
 // 2. GET MATERI BERDASARKAN KATEGORI (Public/Siswa)
 // Cocok dipake pas user klik menu kategori A, lalu muncul list materinya
 // ==============================================
