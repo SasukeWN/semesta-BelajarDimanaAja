@@ -17,7 +17,10 @@ app.use(express.json());
 app.use(cookieParser()); // Gunakan middleware cookie
 
 const adminRoute = require('./route/admin/admin.route');
+const kategoriRoute = require('./route/kategori/kategori.route');
+
 app.use('/api/admin', adminRoute);
+app.use('/api/kategori', kategoriRoute);
 
 app.get('/test-db', async (req, res) => {
   try {
