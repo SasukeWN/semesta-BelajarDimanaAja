@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { BookOpen, ChevronRight, Image as ImageIcon, GraduationCap, Zap, Map } from 'lucide-react';
 import NavbarUser from './navbar_user';
+import ChatAI from './ChatAI';
 
 const Home = () => {
   const [kategoris, setKategoris] = useState([]);
@@ -200,6 +201,7 @@ const Home = () => {
           </p>
         </div>
       </footer>
+      <ChatAI />
     </div>
   );
 };

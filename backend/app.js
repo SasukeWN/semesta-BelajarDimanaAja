@@ -21,10 +21,12 @@ app.use(express.static('public'));
 const adminRoute = require('./route/admin/admin.route');
 const kategoriRoute = require('./route/kategori/kategori.route');
 const materiRoute = require('./route/materi/materi.route');
+const aiRoute = require('./route/ai/ai.route');
 
 app.use('/api/admin', adminRoute);
 app.use('/api/kategori', kategoriRoute);
 app.use('/api/materi', materiRoute);
+app.use('/api/ai', aiRoute);
 
 app.get('/test-db', async (req, res) => {
   try {

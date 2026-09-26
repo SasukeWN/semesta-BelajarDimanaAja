@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ArrowLeft, BookOpen } from 'lucide-react';
 
 import NavbarUser from './navbar_user';
+import ChatAI from './ChatAI';
 
 const KategoriDetail = () => {
   const { id } = useParams(); // Ambil ID kategori dari URL
@@ -128,6 +129,7 @@ const KategoriDetail = () => {
           </div>
         )}
       </div>
+      <ChatAI />
     </div>
   );
 };

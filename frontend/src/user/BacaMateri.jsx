@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ArrowLeft, BookOpen, Tag } from 'lucide-react';
 
 import NavbarUser from './navbar_user';
+import ChatAI from './ChatAI';
 
 const BacaMateri = () => {
   const { id } = useParams(); // Ambil ID materi dari URL
@@ -122,6 +123,7 @@ const BacaMateri = () => {
           © {new Date().getFullYear()} BelajarDimanaAja · Dibuat dengan ❤️ untuk pendidikan Indonesia
         </div>
       </footer>
+      <ChatAI konteksMateri={materi.isi_materi} />
     </div>
   );
 };

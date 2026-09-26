@@ -1,9 +1,23 @@
-import { LayoutDashboard, BookOpen, Table, X } from 'lucide-react';
-import { NavLink } from 'react-router-dom';
+import { LayoutDashboard, BookOpen, Table, X, LogOut } from 'lucide-react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 // isOpen  = apakah sidebar terbuka (di mobile)
 // onClose = fungsi untuk nutup sidebar saat link diklik atau overlay diklik
 const Sidebar = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    if (window.confirm('Yakin ingin keluar?')) {
+      try {
+        await axios.post('http://localhost:3000/api/admin/logout', {}, { withCredentials: true });
+        navigate('/login');
+      } catch (error) {
+        console.error('Gagal logout:', error);
+        alert('Gagal logout. Silakan coba lagi.');
+      }
+    }
+  };
   return (
     <aside className={`
       fixed inset-y-0 left-0 z-30 w-64 bg-dark text-gray-300 flex flex-col shrink-0
@@ -81,6 +95,17 @@ const Sidebar = ({ isOpen, onClose }) => {
             </li>
           </ul>
         </div>
+      </div>
+
+      {/* Logout Area */}
+      <div className="p-4 border-t border-gray-700/50 mt-auto shrink-0">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-4 py-2 rounded-md transition-colors text-red-400 hover:bg-red-500/10 hover:text-red-300"
+        >
+          <LogOut size={20} />
+          <span>Logout</span>
+        </button>
       </div>
     </aside>
   );

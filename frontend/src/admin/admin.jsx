@@ -35,12 +35,12 @@ const AdminLayout = ({ children }) => {
   }, [navigate]);
 
   return (
-    <div className="flex h-screen bg-slate-50 font-sans overflow-hidden">
+    <div className="flex h-screen bg-gradient-to-br from-slate-50 to-blue-50/50 font-sans overflow-hidden">
 
       {/* Overlay gelap di belakang sidebar (hanya muncul di mobile saat sidebar terbuka) */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-20 bg-black/50 lg:hidden"
+          className="fixed inset-0 z-20 bg-slate-900/40 backdrop-blur-sm lg:hidden transition-opacity"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -51,37 +51,41 @@ const AdminLayout = ({ children }) => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-full overflow-hidden">
 
-        {/* Top Header Navbar */}
-        <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-6 shrink-0">
+        {/* Top Header Navbar - Glassmorphism style */}
+        <header className="h-20 bg-white/70 backdrop-blur-md border-b border-gray-200/50 flex items-center justify-between px-4 md:px-8 shrink-0 shadow-sm z-10 sticky top-0">
 
           {/* Tombol Hamburger (hanya muncul di mobile) */}
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden text-gray-500 hover:text-gray-700 p-2 rounded-md hover:bg-gray-100 transition-colors"
+            className="lg:hidden text-gray-600 hover:text-primary p-2.5 rounded-xl hover:bg-white shadow-sm transition-all"
           >
             <Menu size={22} />
           </button>
 
-          {/* Di desktop, sisi kiri header kosong */}
-          <div className="hidden lg:block" />
+          {/* Sisi kiri header */}
+          <div className="hidden lg:flex items-center gap-2">
+             <p className="text-gray-500 text-sm font-medium">Hello, <span className="text-gray-800 font-bold capitalize">{adminName}</span> 👋</p>
+          </div>
 
-          {/* Right: Profile - nama diambil dari state (bukan hardcode) */}
-          <div className="flex items-center gap-3 cursor-pointer">
+          {/* Right: Profile - nama diambil dari state */}
+          <div className="flex items-center gap-4 cursor-pointer hover:bg-white/60 p-2 rounded-2xl transition-all">
             <div className="text-right hidden sm:block">
-              <p className="text-sm font-semibold text-gray-800 capitalize">{adminName}</p>
-              <p className="text-xs text-gray-500">Administrator</p>
+              <p className="text-sm font-bold text-gray-800 capitalize">{adminName}</p>
+              <p className="text-xs text-primary font-medium">Administrator</p>
             </div>
-            <img
-              src={`https://ui-avatars.com/api/?name=${adminName}&background=e2e8f0&color=334155`}
-              alt="Profile"
-              className="w-10 h-10 rounded-full object-cover"
-            />
-            <ChevronDown size={16} className="text-gray-400" />
+            <div className="relative">
+              <img
+                src={`https://ui-avatars.com/api/?name=${adminName}&background=eff6ff&color=1d4ed8&bold=true`}
+                alt="Profile"
+                className="w-11 h-11 rounded-full object-cover border-2 border-white shadow-sm"
+              />
+              <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+            </div>
           </div>
         </header>
 
         {/* Dynamic Page Content */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6">
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
           {children}
         </main>
       </div>
