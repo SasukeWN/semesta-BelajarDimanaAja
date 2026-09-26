@@ -16,6 +16,10 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser()); // Gunakan middleware cookie
 
+// Setup folder public agar file WebP yang di-upload bisa diakses langsung via URL (Contoh: localhost:3000/uploads/...)
+app.use(express.static('public'));
+
+
 const adminRoute = require('./route/admin/admin.route');
 const kategoriRoute = require('./route/kategori/kategori.route');
 const materiRoute = require('./route/materi/materi.route');

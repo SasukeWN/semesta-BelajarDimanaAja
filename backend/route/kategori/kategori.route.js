@@ -3,6 +3,9 @@ const router = express.Router();
 const db = require('../../db');
 const { verifyToken } = require('../../middleware');
 
+// Import middleware multer dan sharp yang baru aja dibikin
+const { uploadKategoriIkon, processImageToWebp } = require('../../middleware_foto');
+
 // ==============================================
 // 1. GET SEMUA KATEGORI (Bisa diakses publik/siswa)
 // ==============================================
@@ -47,7 +50,9 @@ router.get('/:id', async (req, res) => {
 // ==============================================
 // 3. TAMBAH KATEGORI BARU (Hanya Admin/Guru)
 // ==============================================
-router.post('/', verifyToken, async (req, res) => {
+// Tambahkan middleware uploadKategoriIkon dan processImageToWebp di sini
+router.post('/', verifyToken, uploadKategoriIkon, processImageToWebp, async (req, res) => {
+  // ikon_kategori sekarang udah otomatis di-replace sama path file WebP dari middleware_foto (kalau admin upload foto)
   const { nama_kategori, ikon_kategori } = req.body;
 
   try {
@@ -78,8 +83,9 @@ router.post('/', verifyToken, async (req, res) => {
 // ==============================================
 // 4. UPDATE KATEGORI (Hanya Admin/Guru)
 // ==============================================
-router.put('/:id', verifyToken, async (req, res) => {
+router.put('/:id', verifyToken, uploadKategoriIkon, processImageToWebp, async (req, res) => {
   const { id } = req.params;
+  // ikon_kategori bisa berisi path file baru (kalau admin upload), atau undefined (kalau nggak diubah)
   const { nama_kategori, ikon_kategori } = req.body;
 
   try {
@@ -87,8 +93,9 @@ router.put('/:id', verifyToken, async (req, res) => {
       return res.status(400).json({ success: false, message: 'Nama kategori wajib diisi!' });
     }
 
+    // Pakai COALESCE supaya kalau ikon_kategori nggak dikirim (null), dia nggak akan ngehapus ikon lama di database
     const [result] = await db.query(
-      'UPDATE kategori SET nama_kategori = ?, ikon_kategori = ? WHERE id = ?',
+      'UPDATE kategori SET nama_kategori = ?, ikon_kategori = COALESCE(?, ikon_kategori) WHERE id = ?',
       [nama_kategori, ikon_kategori || null, id]
     );
 
