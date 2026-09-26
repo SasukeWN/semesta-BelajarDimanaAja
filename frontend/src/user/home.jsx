@@ -1,12 +1,24 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { BookOpen, ChevronRight, Image as ImageIcon } from 'lucide-react';
+import { BookOpen, ChevronRight, Image as ImageIcon, GraduationCap, Zap, Map } from 'lucide-react';
+import NavbarUser from './navbar_user';
 
 const Home = () => {
   const [kategoris, setKategoris] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Scroll otomatis kalau ada hash di URL (misal #tentang) saat komponen mount
+  useEffect(() => {
+    if (location.hash) {
+      setTimeout(() => {
+        const element = document.querySelector(location.hash);
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, [location]);
 
   // Ambil semua kategori dari backend
   useEffect(() => {
@@ -28,20 +40,10 @@ const Home = () => {
     <div className="min-h-screen bg-slate-50 font-sans">
 
       {/* ==================== NAVBAR ==================== */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <BookOpen size={18} className="text-white" />
-            </div>
-            <span className="font-bold text-gray-800 text-lg">BelajarDimanaAja</span>
-          </div>
-          <span className="text-sm text-gray-500 hidden sm:block">Platform Belajar Gratis untuk Semua</span>
-        </div>
-      </nav>
+      <NavbarUser />
 
       {/* ==================== HERO SECTION ==================== */}
-      <section className="bg-gradient-to-br from-primary to-blue-700 text-white">
+      <section className="bg-gradient-to-br from-primary to-blue-700 text-white relative">
         <div className="max-w-5xl mx-auto px-4 py-16 md:py-24 text-center">
           <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
             Belajar Dimana Aja, <br />
@@ -49,29 +51,82 @@ const Home = () => {
           </h1>
           <p className="text-blue-100 text-lg md:text-xl max-w-2xl mx-auto mb-8">
             Akses ratusan materi pelajaran berkualitas secara gratis. 
-            Dirancang khusus untuk pelajar di seluruh Indonesia.
+            Dirancang khusus untuk menjangkau pelajar di seluruh pelosok Nusantara.
           </p>
-          <a
-            href="#kategori"
-            className="inline-block bg-white text-primary font-semibold px-6 py-3 rounded-full shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5"
+          <button
+            onClick={() => document.querySelector('#kategori')?.scrollIntoView({ behavior: 'smooth' })}
+            className="inline-block bg-white text-primary font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
           >
             Mulai Belajar Sekarang
-          </a>
+          </button>
         </div>
 
         {/* Gelombang dekoratif di bawah hero */}
-        <div className="w-full overflow-hidden leading-none">
+        <div className="w-full overflow-hidden leading-none absolute bottom-0 left-0">
           <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" className="fill-slate-50">
             <path d="M0,40 C360,80 1080,0 1440,40 L1440,60 L0,60 Z" />
           </svg>
         </div>
       </section>
 
+      {/* ==================== ABOUT SECTION (TENTANG) ==================== */}
+      <section id="tentang" className="bg-white border-b border-gray-200 pb-16 pt-24">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">Apa itu BelajarDimanaAja?</h2>
+            <p className="text-lg text-gray-600 leading-relaxed">
+              <span className="font-bold text-primary">BelajarDimanaAja</span> adalah buku materi pelajaran digital yang dirancang khusus untuk anak-anak dan pelajar sekolah, terutama bagi mereka yang berada di pedesaan atau daerah pelosok.
+            </p>
+            <p className="text-lg text-gray-600 leading-relaxed mt-4">
+              Kami sadar bahwa proses belajar di daerah seringkali terbebani oleh keharusan membeli buku fisik yang harganya cukup mahal. Kami hadir sebagai solusi yang efisien dan hemat biaya, karena platform ini sepenuhnya gratis. Anak-anak di desa tidak perlu lagi repot atau terbebani biaya beli buku cetak, karena semua materi pelajaran selalu sedia dan bisa dibaca kapan saja langsung dari layar HP atau laptop di web ini.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Card 1 */}
+            <div className="text-center p-8 bg-slate-50 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-16 h-16 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                <Map size={32} />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-3">Belajar Tanpa Batas Jarak</h3>
+              <p className="text-gray-600">
+                Tidak peduli kamu tinggal di kota besar atau desa terpencil, materi pembelajaran ini siap diakses. 
+                Sesuai namanya, kamu benar-benar bisa belajar dimana aja!
+              </p>
+            </div>
+            
+            {/* Card 2 */}
+            <div className="text-center p-8 bg-slate-50 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Zap size={32} />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-3">Super Ringan & Hemat Kuota</h3>
+              <p className="text-gray-600">
+                Website ini didesain seminimalis mungkin tanpa elemen berat. Sangat stabil meski di daerah susah sinyal 
+                dan dipastikan menghemat pengeluaran kuota data.
+              </p>
+            </div>
+            
+            {/* Card 3 */}
+            <div className="text-center p-8 bg-slate-50 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <GraduationCap size={32} />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-3">Kualitas Pendidikan Setara</h3>
+              <p className="text-gray-600">
+                Menyediakan rangkuman dan materi terstruktur yang dikurasi langsung oleh tenaga pendidik. 
+                Menyeimbangkan kualitas pendidikan antara pusat kota dan pelosok.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ==================== KATEGORI SECTION ==================== */}
-      <section id="kategori" className="max-w-5xl mx-auto px-4 py-12">
-        <div className="mb-8 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Pilih Kategori Pelajaran</h2>
-          <p className="text-gray-500 mt-2">Klik kategori di bawah untuk melihat daftar materinya</p>
+      <section id="kategori" className="max-w-5xl mx-auto px-4 py-16 md:py-24">
+        <div className="mb-10 text-center">
+          <h2 className="text-3xl font-bold text-gray-800">Mulai Belajar Sekarang</h2>
+          <p className="text-gray-500 mt-2 text-lg">Pilih kategori materi di bawah dan mulailah membaca</p>
         </div>
 
         {/* Loading State */}
@@ -88,7 +143,7 @@ const Home = () => {
 
         {/* Empty State */}
         {!loading && kategoris.length === 0 && (
-          <div className="text-center py-16 text-gray-400">
+          <div className="text-center py-16 text-gray-400 bg-white rounded-2xl border border-gray-200 shadow-sm">
             <BookOpen size={48} className="mx-auto mb-3 opacity-40" />
             <p className="text-lg">Belum ada kategori tersedia saat ini.</p>
           </div>
@@ -96,39 +151,38 @@ const Home = () => {
 
         {/* Kategori Grid */}
         {!loading && kategoris.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {kategoris.map((kategori) => (
               <button
                 key={kategori.id}
                 onClick={() => navigate(`/kategori/${kategori.id}`)}
-                className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-200 p-6 text-left group"
+                className="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-primary/50 hover:-translate-y-1 transition-all duration-300 p-6 text-left group flex flex-col h-full"
               >
                 {/* Ikon Kategori */}
-                <div className="mb-4">
+                <div className="mb-6">
                   {kategori.ikon_kategori ? (
                     <img
                       src={`http://localhost:3000${kategori.ikon_kategori}`}
                       alt={kategori.nama_kategori}
-                      className="w-16 h-16 rounded-xl object-cover border border-gray-100"
+                      className="w-16 h-16 rounded-xl object-cover border border-gray-100 shadow-sm"
                     />
                   ) : (
-                    <div className="w-16 h-16 rounded-xl bg-blue-50 flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-xl bg-blue-50 flex items-center justify-center shadow-sm">
                       <ImageIcon size={28} className="text-primary/60" />
                     </div>
                   )}
                 </div>
 
                 {/* Nama & Tombol */}
-                <div className="flex items-end justify-between gap-3">
-                  <h3 className="font-semibold text-gray-800 text-base leading-snug group-hover:text-primary transition-colors">
+                <div className="flex items-end justify-between gap-3 mt-auto">
+                  <h3 className="font-bold text-gray-800 text-lg leading-snug group-hover:text-primary transition-colors">
                     {kategori.nama_kategori}
                   </h3>
                   <ChevronRight
-                    size={18}
-                    className="text-gray-400 shrink-0 group-hover:text-primary group-hover:translate-x-1 transition-all"
+                    size={20}
+                    className="text-gray-300 shrink-0 group-hover:text-primary group-hover:translate-x-1 transition-all"
                   />
                 </div>
-                <p className="text-xs text-gray-400 mt-1">Lihat semua materi →</p>
               </button>
             ))}
           </div>
@@ -136,9 +190,14 @@ const Home = () => {
       </section>
 
       {/* ==================== FOOTER ==================== */}
-      <footer className="border-t border-gray-200 bg-white mt-8">
-        <div className="max-w-5xl mx-auto px-4 py-6 text-center text-gray-400 text-sm">
-          © {new Date().getFullYear()} BelajarDimanaAja · Dibuat dengan ❤️ untuk pendidikan Indonesia
+      <footer className="border-t border-gray-200 bg-white">
+        <div className="max-w-5xl mx-auto px-4 py-8 text-center">
+          <p className="text-gray-500 font-medium">
+            © {new Date().getFullYear()} BelajarDimanaAja
+          </p>
+          <p className="text-gray-400 text-sm mt-1">
+            Dibuat dengan ❤️ untuk pendidikan Indonesia yang lebih merata
+          </p>
         </div>
       </footer>
     </div>

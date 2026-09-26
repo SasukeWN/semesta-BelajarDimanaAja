@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowLeft, BookOpen, Tag } from 'lucide-react';
 
+import NavbarUser from './navbar_user';
+
 const BacaMateri = () => {
   const { id } = useParams(); // Ambil ID materi dari URL
   const navigate = useNavigate();
@@ -45,16 +47,19 @@ const BacaMateri = () => {
   // ==================== NOT FOUND STATE ====================
   if (notFound || !materi) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-center text-gray-400">
-          <BookOpen size={48} className="mx-auto mb-3 opacity-40" />
-          <p className="text-lg font-medium">Materi tidak ditemukan</p>
-          <button
-            onClick={() => navigate('/')}
-            className="mt-4 text-primary hover:underline text-sm"
-          >
-            Kembali ke Beranda
-          </button>
+      <div className="min-h-screen bg-slate-50 flex flex-col">
+        <NavbarUser />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center text-gray-400">
+            <BookOpen size={48} className="mx-auto mb-3 opacity-40" />
+            <p className="text-lg font-medium">Materi tidak ditemukan</p>
+            <button
+              onClick={() => navigate('/')}
+              className="mt-4 text-primary hover:underline text-sm"
+            >
+              Kembali ke Beranda
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -64,24 +69,19 @@ const BacaMateri = () => {
     <div className="min-h-screen bg-slate-50 font-sans">
 
       {/* ==================== NAVBAR ==================== */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto px-4 h-16 flex items-center gap-3">
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-gray-500 hover:text-gray-800 transition-colors"
-          >
-            <ArrowLeft size={20} />
-            <span className="text-sm font-medium">Kembali</span>
-          </button>
-          <span className="text-gray-300">|</span>
-          <span className="font-bold text-gray-700 text-sm truncate">
-            BelajarDimanaAja
-          </span>
-        </div>
-      </nav>
+      <NavbarUser />
 
       {/* ==================== KONTEN MATERI ==================== */}
-      <article className="max-w-3xl mx-auto px-4 py-10">
+      <article className="max-w-3xl mx-auto px-4 py-8">
+      
+        {/* Tombol Kembali */}
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-gray-500 hover:text-primary transition-colors mb-6"
+        >
+          <ArrowLeft size={18} />
+          <span className="text-sm font-medium">Kembali</span>
+        </button>
 
         {/* Breadcrumb Kategori */}
         <div className="mb-4 flex items-center gap-2">

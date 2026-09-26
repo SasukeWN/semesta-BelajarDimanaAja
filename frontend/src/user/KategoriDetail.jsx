@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowLeft, BookOpen } from 'lucide-react';
 
+import NavbarUser from './navbar_user';
+
 const KategoriDetail = () => {
   const { id } = useParams(); // Ambil ID kategori dari URL
   const navigate = useNavigate();
@@ -43,23 +45,18 @@ const KategoriDetail = () => {
     <div className="min-h-screen bg-slate-50 font-sans">
 
       {/* ==================== NAVBAR ==================== */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 h-16 flex items-center gap-3">
-          <button
-            onClick={() => navigate('/')}
-            className="flex items-center gap-2 text-gray-500 hover:text-gray-800 transition-colors"
-          >
-            <ArrowLeft size={20} />
-            <span className="text-sm font-medium">Kembali</span>
-          </button>
-          <span className="text-gray-300">|</span>
-          <span className="font-bold text-gray-700 truncate">
-            {loading ? '...' : (kategori?.nama_kategori ?? 'Kategori')}
-          </span>
-        </div>
-      </nav>
+      <NavbarUser />
 
-      <div className="max-w-4xl mx-auto px-4 py-10">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        
+        {/* Tombol Kembali (Di luar navbar agar lebih konsisten) */}
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center gap-2 text-gray-500 hover:text-primary transition-colors mb-6"
+        >
+          <ArrowLeft size={18} />
+          <span className="text-sm font-medium">Kembali ke Beranda</span>
+        </button>
 
         {/* Header Kategori */}
         {!loading && kategori && (
