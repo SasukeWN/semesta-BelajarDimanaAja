@@ -75,14 +75,14 @@ router.post('/login', async (req, res) => {
       username: admin.username
     };
     
-    // Generate token yang berlaku selama 24 jam
+    
     const token = jwt.sign(tokenPayload, JWT_SECRET, { expiresIn: '24h' });
 
-    // Set token ke dalam Cookie
+   
     res.cookie('token', token, {
-      httpOnly: true, // Biar nggak bisa diakses lewat JavaScript (XSS protection)
-      secure: process.env.NODE_ENV === 'production', // Kalo di production (HTTPS), jadiin true
-      maxAge: 24 * 60 * 60 * 1000 // 24 jam dalam miliseconds
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === 'production', 
+      maxAge: 24 * 60 * 60 * 1000 
     });
 
     res.json({
@@ -100,11 +100,9 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// ==============================================
-// 2.5 LOGOUT ADMIN
-// ==============================================
+
 router.post('/logout', (req, res) => {
-  // Hapus cookie token
+
   res.clearCookie('token');
   res.json({
     success: true,
@@ -120,7 +118,7 @@ router.get('/profile', verifyToken, async (req, res) => {
     const adminId = req.admin.id;
     
     
-    const [admins] = await db.query('SELECT id, username, create_at FROM admin WHERE id = ?', [adminId]);
+    const [admins] = await db.query('SELECT id, username, created_at FROM admin WHERE id = ?', [adminId]);
     
     res.json({
       success: true,
