@@ -125,18 +125,24 @@ const Home = () => {
 
       {/* ==================== KATEGORI SECTION ==================== */}
       <section id="kategori" className="max-w-5xl mx-auto px-4 py-16 md:py-24">
-        <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold text-gray-800">Mulai Belajar Sekarang</h2>
-          <p className="text-gray-500 mt-2 text-lg">Pilih kategori materi di bawah dan mulailah membaca</p>
+        <div className="mb-12 text-center">
+          <span className="text-primary font-bold tracking-wider text-sm uppercase bg-blue-50 px-4 py-1.5 rounded-full mb-3 inline-block">
+            Materi Pembelajaran
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mt-2">Pilih Kategori Belajarmu</h2>
+          <p className="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">
+            Berbagai macam pelajaran telah kami ringkas agar mudah dipahami. Pilih materi yang ingin kamu pelajari hari ini!
+          </p>
         </div>
 
         {/* Loading State */}
         {loading && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map(i => (
-              <div key={i} className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
-                <div className="w-16 h-16 bg-gray-200 rounded-xl mb-4" />
-                <div className="h-4 bg-gray-200 rounded w-3/4" />
+              <div key={i} className="bg-white rounded-3xl border border-gray-100 p-6 animate-pulse shadow-sm">
+                <div className="w-16 h-16 bg-gray-200 rounded-2xl mb-6" />
+                <div className="h-5 bg-gray-200 rounded-full w-3/4 mb-3" />
+                <div className="h-4 bg-gray-100 rounded-full w-1/2" />
               </div>
             ))}
           </div>
@@ -144,9 +150,12 @@ const Home = () => {
 
         {/* Empty State */}
         {!loading && kategoris.length === 0 && (
-          <div className="text-center py-16 text-gray-400 bg-white rounded-2xl border border-gray-200 shadow-sm">
-            <BookOpen size={48} className="mx-auto mb-3 opacity-40" />
-            <p className="text-lg">Belum ada kategori tersedia saat ini.</p>
+          <div className="text-center py-20 bg-slate-50 rounded-3xl border border-dashed border-gray-200">
+            <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
+              <BookOpen size={40} className="text-gray-300" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-700">Belum Ada Kategori</h3>
+            <p className="text-gray-500 mt-2">Kategori pelajaran sedang disiapkan oleh Admin.</p>
           </div>
         )}
 
@@ -157,32 +166,41 @@ const Home = () => {
               <button
                 key={kategori.id}
                 onClick={() => navigate(`/kategori/${kategori.id}`)}
-                className="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-primary/50 hover:-translate-y-1 transition-all duration-300 p-6 text-left group flex flex-col h-full"
+                className="relative bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 hover:border-primary/30 hover:-translate-y-2 transition-all duration-300 p-8 text-left group flex flex-col h-full overflow-hidden"
               >
+                {/* Decorative background circle */}
+                <div className="absolute -right-8 -top-8 w-32 h-32 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+
                 {/* Ikon Kategori */}
-                <div className="mb-6">
+                <div className="relative mb-6">
                   {kategori.ikon_kategori ? (
-                    <img
-                      src={`http://localhost:3000${kategori.ikon_kategori}`}
-                      alt={kategori.nama_kategori}
-                      className="w-16 h-16 rounded-xl object-cover border border-gray-100 shadow-sm"
-                    />
+                    <div className="w-20 h-20 rounded-2xl bg-white shadow-sm p-1 border border-gray-50 group-hover:rotate-3 transition-transform duration-300">
+                      <img
+                        src={`http://localhost:3000${kategori.ikon_kategori}`}
+                        alt={kategori.nama_kategori}
+                        className="w-full h-full object-cover rounded-xl"
+                      />
+                    </div>
                   ) : (
-                    <div className="w-16 h-16 rounded-xl bg-blue-50 flex items-center justify-center shadow-sm">
-                      <ImageIcon size={28} className="text-primary/60" />
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-50 to-primary/10 flex items-center justify-center shadow-sm group-hover:rotate-3 transition-transform duration-300 border border-blue-100/50">
+                      <ImageIcon size={32} className="text-primary/70" />
                     </div>
                   )}
                 </div>
 
                 {/* Nama & Tombol */}
-                <div className="flex items-end justify-between gap-3 mt-auto">
-                  <h3 className="font-bold text-gray-800 text-lg leading-snug group-hover:text-primary transition-colors">
+                <div className="relative mt-auto">
+                  <h3 className="font-extrabold text-gray-800 text-xl mb-4 group-hover:text-primary transition-colors">
                     {kategori.nama_kategori}
                   </h3>
-                  <ChevronRight
-                    size={20}
-                    className="text-gray-300 shrink-0 group-hover:text-primary group-hover:translate-x-1 transition-all"
-                  />
+                  
+                  <div className="flex items-center text-sm font-semibold text-gray-500 group-hover:text-primary transition-colors">
+                    <span>Lihat Materi</span>
+                    <ChevronRight
+                      size={18}
+                      className="ml-1 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+                    />
+                  </div>
                 </div>
               </button>
             ))}

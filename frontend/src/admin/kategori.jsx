@@ -172,8 +172,20 @@ const Kategori = () => {
                 </tr>
               ) : kategoris.length === 0 ? (
                 <tr>
-                  <td colSpan="3" className="px-8 py-12 text-center text-gray-500">
-                    Belum ada data kategori. Silakan tambah baru.
+                  <td colSpan="3" className="px-8 py-16 text-center">
+                    <div className="flex flex-col items-center justify-center max-w-sm mx-auto">
+                      <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-4 border border-blue-100 shadow-sm">
+                        <LayoutGrid size={32} className="text-primary/60" />
+                      </div>
+                      <h3 className="text-lg font-bold text-gray-700 mb-1">Belum Ada Kategori</h3>
+                      <p className="text-gray-500 text-sm mb-6">Kamu belum menambahkan kategori apa pun. Tambahkan kategori baru untuk mulai menyusun materi.</p>
+                      <button 
+                        onClick={handleAdd}
+                        className="text-primary bg-blue-50 hover:bg-blue-100 px-5 py-2.5 rounded-xl font-medium transition-colors border border-blue-100"
+                      >
+                        + Tambah Kategori Pertama
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ) : (

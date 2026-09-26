@@ -165,8 +165,20 @@ const Materi = () => {
                 </tr>
               ) : materis.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="px-8 py-12 text-center text-gray-500">
-                    Belum ada data materi. Silakan tambah baru.
+                  <td colSpan="4" className="px-8 py-16 text-center">
+                    <div className="flex flex-col items-center justify-center max-w-sm mx-auto">
+                      <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mb-4 border border-emerald-100 shadow-sm">
+                        <BookOpen size={32} className="text-emerald-600/60" />
+                      </div>
+                      <h3 className="text-lg font-bold text-gray-700 mb-1">Belum Ada Materi</h3>
+                      <p className="text-gray-500 text-sm mb-6">Materi pembelajaran masih kosong. Yuk, tambahkan materi baru agar bisa diakses oleh siswa.</p>
+                      <button 
+                        onClick={handleAdd}
+                        className="text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-5 py-2.5 rounded-xl font-medium transition-colors border border-emerald-100"
+                      >
+                        + Buat Materi Pertama
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ) : (
